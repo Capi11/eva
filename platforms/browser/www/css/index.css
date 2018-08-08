@@ -1,0 +1,27 @@
+body{
+    background: green;
+}
+h1 {
+    font-size:24px;
+    font-weight:normal;
+    margin:0px;
+    overflow:visible;
+    padding:0px;
+    text-align:center;
+    color:purple;
+
+}
+p{
+    color: brown;
+    text-align:center;
+
+}
+
+h3{
+    color: green;
+    text-align:center;
+}
+
+/*
+Luis Andres Bautista 
+Maria Eva Ramirez

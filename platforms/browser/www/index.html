@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/gethtml"; charset="utf-8" />
+		<meta charset="utf-8">
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="msapplication-tap-highlight" content="no" />
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<title>Consulta</title>
+		<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+		<link rel="stylesheet" href="css/jquery.mobile.theme-1.4.5.min.css" />
+		<link rel="stylesheet" href="css/jquery.mobile.struture-1.4.5.min.css" />
+		<script type="text/javascript" src="cordova.js"></script>
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script src="js/jquery.mobile-1.4.5.min.js"></script>
+		<script>
+
+			function init(){ 
+				$.getJSON('http://localhost/respuesta.php', function(data){//archivo respuesta esta en htdocs, es para la conexion de las preguntas con la bd
+					for (var i = 0; i < data.length; i++) {		
+							$("form").append("<h3>"+data[i].id+"- "+data[i].pregunta+"</p>"); //pregunta
+							$("form").append("<p><input type='radio' checked='checked' name='a"+data[i].id+"' id='a"+data[i].id+"' value='"+data[i].a+"'>"+data[i].a+"<br><br>"); 
+							$("form").append("<p><input type='radio' name='a"+data[i].id+"' id='b"+data[i].id+"' value='"+data[i].b+"'>"+data[i].b+"<br><br>"); 
+							$("form").append("<p><input type='radio' name='a"+data[i].id+"' id='c"+data[i].id+"' value='"+data[i].c+"'>"+data[i].c+"<br><br>"); 
+							$("form").append("<p><input type='radio' name='a"+data[i].id+"' id='d"+data[i].id+"' value='"+data[i].d+"'>"+data[i].d+"<br><br>");
+								//las lineas anteriores son para las respuestas que estaran en el radiobutton
+							
+
+					}
+
+				$("form").append('<a type=button onClick="vali()"> verificar'); //boton para pasar a la siguiente ventana donde se daran  los puntos
+										
+				});	
+			} 
+
+			function vali(){
+				$.getJSON('http://localhost/respuesta.php', function(data){
+					
+				var acierto=0; 
+				//en programacion "i" es universal pero por motivos de que no vayan a copiar mi codigo utilizare "j"
+				for (var j = 0; j < data.length; j++) { 
+					if (data[j].respuesta == $("input[name='a"+data[j].id+"']:checked").val()) { //comparacion de respuestas
+							acierto= acierto+2; //Suma de puntos
+							
+					} 
+				
+														}
+														//muestra las respuestas que tendras o comentarios
+														//al finalizar las preguntas asi como los puntos que obtuviste
+					if (acierto>=2 && acierto<=4) {
+						document.write("<h1>Tu puntuación es : "+acierto+'<br><br><a type="button"  onclick="javascript:window.location.reload();"/>Reintentar');
+					}
+					else if(acierto==6){
+						document.write("<h1>Puede ser mejor tu puntuación es: "+acierto+'<br><br><a type="button"  onclick="javascript:window.location.reload();"/>Reintentar');
+					}
+					else if (acierto>=8 && acierto<10) {
+						document.write("<h1>Casi todo bien, tu puntuación : "+acierto+'<br><br><a type="button"  onclick="javascript:window.location.reload();"/>Reintentar');
+					}
+
+					else if (acierto<2) {
+						document.write("<h1>Mira más fútbol, tu puntuación es de : "+acierto+'<br><br><a type="button"  onclick="javascript:window.location.reload();"/>Reintentar');
+					}
+
+					else{
+						document.write("<h1>Felicidades,tienes : "+acierto+'<br><br><a type="button"  onclick="javascript:window.location.reload();"/>Reintentar');
+					}
+
+								});
+								} 	
+		</script>		
+	</head>
+<body onload="init();"> 
+	<div data-role="page" id="principal">
+		<div data-role="header">
+    		<h1>Preguntas de fútbol</h1> 
+		</div>
+	
+		 <div role="main" class="ui-content" id="device">
+			<form action="">
+    			<fieldset data-role="controlgroup" data-mini="true">
+    			</fieldset>
+			</form>			
+		</div>
+	</div>
+</body>
+
+</html>
